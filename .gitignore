@@ -1,0 +1,47 @@
+# Dependências
+node_modules
+/npm-debug.log*
+/yarn-debug.log*
+/lerna-debug.log*
+/pnpm-debug.log*
+
+# Build artifacts (Vite)
+/dist
+/dist-ssr
+*.local
+/build
+
+# Variáveis de Ambiente
+.env
+.env.*
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Vercel
+.vercel
+# Se você tiver arquivos específicos que deseja excluir do deployment do Vercel,
+# é recomendado usar um arquivo .vercelignore separado.
+
+# Biome
+# O Biome respeita o .gitignore por padrão se a integração VCS estiver ativada.
+# Arquivos de cache ou configurações internas do biome que não devem ser versionados.
+# Se o Biome gerar algum cache na raiz, adicione-o aqui.
+.biome/
+
+# Subbase (se aplica a arquivos/pastas de configuração ou cache locais específicos)
+# Adicione quaisquer arquivos de configuração ou pastas de cache gerados localmente pelo Subbase que não devam ser versionados.
+
+# Arquivos e pastas do sistema operacional/editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.utils
