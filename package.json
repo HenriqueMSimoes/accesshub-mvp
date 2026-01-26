@@ -1,13 +1,19 @@
 {
   "name": "accesshub",
   "version": "1.0.0",
-  "description": "> Central de gestão de acessos, portas, servidores e softwares para múltiplos clientes.   > Inspirado no conceito do **meuguia.dev**, porém com foco **operacional, técnico e auditável**.",
+  "description": "> Central de gestão de acessos, portas, servidores e softwares para múltiplos clientes.**.",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "biome lint .",
+    "format": "biome format . --write"
   },
   "keywords": [],
-  "author": "",
+  "author": "Henrique Simões",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
