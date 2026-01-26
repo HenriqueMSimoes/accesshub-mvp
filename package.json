@@ -1,0 +1,16 @@
+{
+  "name": "accesshub",
+  "version": "1.0.0",
+  "description": "> Central de gestão de acessos, portas, servidores e softwares para múltiplos clientes.   > Inspirado no conceito do **meuguia.dev**, porém com foco **operacional, técnico e auditável**.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.13"
+  }
+}
