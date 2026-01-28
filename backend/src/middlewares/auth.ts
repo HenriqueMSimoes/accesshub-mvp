@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import { getSupabaseClient } from "../services/supabase";
 
-interface JwtPayload {
-  sub: string;
-  email: string;
+export interface AuthUser {
+  id: string;
+  email: string | null;
 }
 
 export interface AuthRequest extends Request {
-  user?: JwtPayload;
+  user?: AuthUser;
 }
 
-export function authMiddleware(
+export async function authMiddleware(
   req: AuthRequest,
   res: Response,
   next: NextFunction,
@@ -21,17 +21,23 @@ export function authMiddleware(
     return res.status(401).json({ error: "Token not provided" });
   }
 
-  const [, token] = authHeader.split(" ");
+  const token = authHeader.split(" ")[1];
 
-  try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET!,
-    ) as JwtPayload;
+  const supabase = getSupabaseClient(token);
 
-    req.user = decoded;
-    next();
-  } catch {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
     return res.status(401).json({ error: "Invalid token" });
   }
+
+  req.user = {
+    id: user.id,
+    email: user.email ?? null,
+  };
+
+  return next();
 }

@@ -1,12 +1,29 @@
-import { Request, Response } from "express";
-import { supabase } from "../services/supabase";
+import { Response } from "express";
+import { AuthRequest } from "../middlewares/auth";
+import { getSupabaseClient } from "../services/supabase";
 
-export async function createClient(req: Request, res: Response) {
+/**
+ * POST /clients
+ */
+export async function createClient(req: AuthRequest, res: Response) {
   const { name, document, contact, notes } = req.body;
 
-  const { data, error } = await supabase.from("clients").insert([
-    { name, document, contact, notes },
-  ]);
+  const supabase = getSupabaseClient(
+    req.headers.authorization!.split(" ")[1]
+  );
+
+  const { data, error } = await supabase
+    .from("clients")
+    .insert([
+      {
+        name,
+        document,
+        contact,
+        notes,
+        user_id: req.user!.id, // auth.uid() no banco
+      },
+    ])
+    .select();
 
   if (error) {
     return res.status(400).json({ error: error.message });
@@ -15,8 +32,18 @@ export async function createClient(req: Request, res: Response) {
   return res.status(201).json(data);
 }
 
-export async function listClients(_: Request, res: Response) {
-  const { data, error } = await supabase.from("clients").select("*");
+/**
+ * GET /clients
+ */
+export async function listClients(req: AuthRequest, res: Response) {
+  const supabase = getSupabaseClient(
+    req.headers.authorization!.split(" ")[1]
+  );
+
+  const { data, error } = await supabase
+    .from("clients")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     return res.status(400).json({ error: error.message });
