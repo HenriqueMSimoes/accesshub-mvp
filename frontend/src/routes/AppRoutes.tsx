@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { ClientsList } from "../pages/Clients/ClientsList";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { MainLayout } from "../layouts/MainLayout";
-import { Login } from "../pages/Login/Login";
+import Login from "../pages/Login/Login";
 
 export function AppRoutes() {
   return (
