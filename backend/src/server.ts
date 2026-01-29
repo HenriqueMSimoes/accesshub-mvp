@@ -3,7 +3,8 @@ import "dotenv/config"
 import express from 'express'
 import cors from 'cors'
 
-import clientsRoutes from "./routes/clients.routes";
+import clientsRoutes from "./routes/clients.routes"
+import serverRoutes from "./routes/servers.routes"
 
 const app = express()
 
@@ -15,6 +16,7 @@ app.get('/health', (_, res) => {
 })
 
 app.use("/clients", clientsRoutes);
+app.use("/servers", serverRoutes)
 
 const PORT = process.env.PORT || 3000
 
