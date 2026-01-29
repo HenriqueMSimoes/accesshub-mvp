@@ -1,5 +1,5 @@
 import { api } from "./api";
-import type { Server } from "../types/servers";
+import type { Server } from "../types/server";
 
 export const getServers = async () => {
   const { data } = await api.get<Server[]>("/servers");

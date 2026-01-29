@@ -1,5 +1,5 @@
 import { api } from "./api";
-import type { Port } from "../types/ports";
+import type { Port } from "../types/port";
 
 export const getPorts = async () => {
   const { data } = await api.get<Port[]>("/ports");

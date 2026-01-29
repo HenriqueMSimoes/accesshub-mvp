@@ -1,5 +1,5 @@
 import { api } from "./api";
-import type { Software } from "../types/softwares";
+import type { Software } from "../types/software";
 
 export const getSoftwares = async () => {
   const { data } = await api.get<Software[]>("/softwares");
