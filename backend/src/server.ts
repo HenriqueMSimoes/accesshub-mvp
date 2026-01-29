@@ -4,7 +4,8 @@ import express from 'express'
 import cors from 'cors'
 
 import clientsRoutes from "./routes/clients.routes"
-import serverRoutes from "./routes/servers.routes"
+import serversRoutes from "./routes/servers.routes"
+import ports
 
 const app = express()
 
@@ -16,7 +17,7 @@ app.get('/health', (_, res) => {
 })
 
 app.use("/clients", clientsRoutes);
-app.use("/servers", serverRoutes)
+app.use("/servers", serversRoutes)
 
 const PORT = process.env.PORT || 3000
 
