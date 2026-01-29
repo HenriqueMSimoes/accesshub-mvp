@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { ClientsList } from "../pages/Clients/ClientsList";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { MainLayout } from "../layouts/MainLayout";
 
 export function AppRoutes() {
   return (
@@ -9,7 +10,9 @@ export function AppRoutes() {
         path="/"
         element={
           <ProtectedRoute>
-            <ClientsList />
+            <MainLayout>
+              <ClientsList />
+            </MainLayout>
           </ProtectedRoute>
         }
       />
