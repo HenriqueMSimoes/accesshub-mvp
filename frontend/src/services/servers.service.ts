@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from "../api/axios";
 import type { Server } from "../types/server";
 
 export const getServers = async () => {
