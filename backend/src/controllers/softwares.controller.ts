@@ -39,8 +39,7 @@ export async function listSoftwares(req: AuthRequest, res: Response) {
 
   const { data, error } = await supabase
     .from("softwares")
-    .select("*, servers(name)")
-    .order("created_at", { ascending: false });
+    .select("*, servers(name)");
 
   if (error) {
     return res.status(400).json({ error: error.message });
