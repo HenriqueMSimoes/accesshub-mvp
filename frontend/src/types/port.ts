@@ -1,7 +1,8 @@
-export interface Port {
+export type Port = {
+  id: string;
   server_id: string;
-  port: string;
+  port: number;
   protocol?: string;
-  service: string;
-  status: string;
-}
+  service?: string;
+  notes?: string;
+};

@@ -1,7 +1,8 @@
-export interface Software {
+export type Software = {
+  id: string;
   server_id: string;
   name: string;
-  type?: string;
   version?: string;
-  main_port?: string;
-}
+  vendor?: string;
+  notes?: string;
+};

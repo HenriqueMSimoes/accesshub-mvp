@@ -261,12 +261,44 @@ export function Servers() {
           ) : (
             <ul>
               {servers.map((server) => (
+                // <li key={server.id} style={{ marginBottom: 12 }}>
+                //   <strong>{server.name || "Servidor sem nome"}</strong>
+                //   {server.host && <> — {server.host}</>}
+
+                //   <div>
+                //     <button onClick={() => handleEdit(server)}>Editar</button>
+                //     <button
+                //       onClick={() => handleDelete(server.id)}
+                //       style={{ marginLeft: 8 }}
+                //     >
+                //       Excluir
+                //     </button>
+                //   </div>
+                // </li>
                 <li key={server.id} style={{ marginBottom: 12 }}>
+                  {server.id && <> — {server.id}</>}
                   <strong>{server.name || "Servidor sem nome"}</strong>
                   {server.host && <> — {server.host}</>}
 
-                  <div>
+                  <div style={{ marginTop: 4 }}>
                     <button onClick={() => handleEdit(server)}>Editar</button>
+
+                    <button
+                      onClick={() => navigate(`/servers/${server.id}/ports`)}
+                      style={{ marginLeft: 8 }}
+                    >
+                      Ports
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        navigate(`/servers/${server.id}/softwares`)
+                      }
+                      style={{ marginLeft: 8 }}
+                    >
+                      Softwares
+                    </button>
+
                     <button
                       onClick={() => handleDelete(server.id)}
                       style={{ marginLeft: 8 }}

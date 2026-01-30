@@ -4,6 +4,8 @@ import { MainLayout } from "../layouts/MainLayout";
 import Login from "../pages/Login";
 import { Clients } from "../pages/Clients";
 import { Servers } from "../pages/Servers";
+import { Ports } from "../pages/Ports";
+import { Softwares } from "../pages/Softwares";
 
 export function AppRoutes() {
   return (
@@ -21,6 +23,8 @@ export function AppRoutes() {
         }
       />
       <Route path="/clients/:clientId/servers" element={<Servers />} />
+      <Route path="/servers/:serverId/ports" element={<Ports />} />
+      <Route path="/servers/:serverId/softwares" element={<Softwares />} />
     </Routes>
   );
 }
