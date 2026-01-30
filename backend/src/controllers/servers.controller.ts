@@ -41,6 +41,7 @@ export async function createServer(req: AuthRequest, res: Response) {
         admin_user,
         admin_password,
         notes,
+        user_id: req.user!.id,
       },
     ])
     .select();
