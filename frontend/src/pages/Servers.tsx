@@ -60,7 +60,6 @@ export function Servers() {
 
   async function loadServers(clientId: string) {
     const res = await getServersByClient(clientId);
-    // console.log("SERVERS:", res.data);
     setServers(res.data);
   }
 
@@ -98,8 +97,6 @@ export function Servers() {
         await updateServer(editingId, form);
         setEditingId(null);
       } else {
-        // console.log("SUBMIT SERVER", { selectedClientId, form });
-
         // ⭐ Recomendado: colocar client_id por último evita o form sobrescrever
         // (caso exista form.client_id vazio por engano)
         await createServer({
@@ -121,7 +118,6 @@ export function Servers() {
 
       await loadServers(selectedClientId);
     } catch (err: any) {
-      // console.error("CREATE SERVER ERROR:", err?.response?.data || err);
       alert(err?.response?.data?.error || "Erro ao criar servidor");
     } finally {
       setLoading(false);

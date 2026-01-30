@@ -22,7 +22,6 @@ export function createServer(data: {
   admin_password?: string;
   notes?: string;
 }) {
-  // console.log("API createServer data =>", data);
   return api.post("/servers", data);
 }
 
