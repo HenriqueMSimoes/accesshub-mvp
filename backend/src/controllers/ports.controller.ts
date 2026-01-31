@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { AuthRequest } from "../middlewares/auth";
-import { getSupabaseClient } from "../services/supabase";
+import { getSupabaseClient } from "../lib/supabasePublic";
 
 /**
  * POST /ports
