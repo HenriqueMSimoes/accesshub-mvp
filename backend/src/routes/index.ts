@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-import clientsRoutes from "./clients.routes";
-import serversRoutes from "./servers.routes";
-import portsRoutes from "./ports.routes";
-import softwaresRoutes from "./softwares.routes";
+import clientsRoutes from "./clients.routes.js";
+import serversRoutes from "./servers.routes.js";
+import portsRoutes from "./ports.routes.js";
+import softwaresRoutes from "./softwares.routes.js";
 
 const routes = Router();
 

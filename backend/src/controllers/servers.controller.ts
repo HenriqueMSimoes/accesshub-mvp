@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getSupabaseClient } from "../lib/supabasePublic";
+import { getSupabaseClient } from "../lib/supabasePublic.js";
 
 /**
  * POST /servers

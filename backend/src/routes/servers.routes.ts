@@ -4,8 +4,8 @@ import {
   listServersByClient,
   updateServer,
   deleteServer,
-} from "../controllers/servers.controller";
-import { authMiddleware } from "../middlewares/auth";
+} from "../controllers/servers.controller.js";
+import { authMiddleware } from "../middlewares/auth.js";
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getSupabaseClient } from "../lib/supabasePublic";
+import { getSupabaseClient } from "../lib/supabasePublic.js";
 
 export async function authMiddleware(
   req: Request,

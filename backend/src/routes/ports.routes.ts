@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth";
+import { authMiddleware } from "../middlewares/auth.js";
 import {
   createPort,
   listPortsByServer,
   updatePort,
   deletePort,
-} from "../controllers/ports.controller";
+} from "../controllers/ports.controller.js";
 
 const router = Router();
 
