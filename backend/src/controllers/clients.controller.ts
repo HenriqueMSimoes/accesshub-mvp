@@ -1,14 +1,17 @@
-import { Response } from "express";
-import { AuthRequest } from "../middlewares/auth";
+import { Request, Response } from "express";
 import { getSupabaseClient } from "../lib/supabasePublic";
 
 /**
  * POST /clients
  */
-export async function createClient(req: AuthRequest, res: Response) {
+export async function createClient(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { name, document, contact, notes } = req.body;
 
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+  const supabase = getSupabaseClient(req.accessToken);
 
   const { data, error } = await supabase
     .from("clients")
@@ -18,7 +21,7 @@ export async function createClient(req: AuthRequest, res: Response) {
         document,
         contact,
         notes,
-        user_id: req.user!.id, // auth.uid() no banco
+        user_id: req.user.id,
       },
     ])
     .select();
@@ -33,8 +36,12 @@ export async function createClient(req: AuthRequest, res: Response) {
 /**
  * GET /clients
  */
-export async function listClients(req: AuthRequest, res: Response) {
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+export async function listClients(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const supabase = getSupabaseClient(req.accessToken);
 
   const { data, error } = await supabase
     .from("clients")
@@ -51,11 +58,15 @@ export async function listClients(req: AuthRequest, res: Response) {
 /**
  * PUT /clients/:id
  */
-export async function updateClient(req: AuthRequest, res: Response) {
+export async function updateClient(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { id } = req.params;
   const { name, document, contact, notes } = req.body;
 
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+  const supabase = getSupabaseClient(req.accessToken);
 
   const updateData: {
     name?: string;
@@ -89,16 +100,20 @@ export async function updateClient(req: AuthRequest, res: Response) {
 /**
  * DELETE /clients/:id
  */
-export async function deleteClient(req: AuthRequest, res: Response) {
+export async function deleteClient(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { id } = req.params;
 
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+  const supabase = getSupabaseClient(req.accessToken);
 
   const { error } = await supabase
     .from("clients")
     .delete()
     .eq("id", id)
-    .eq("user_id", req.user!.id); // só o dono apaga
+    .eq("user_id", req.user.id);
 
   if (error) {
     return res.status(400).json({ error: error.message });

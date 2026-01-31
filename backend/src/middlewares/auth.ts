@@ -1,17 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { getSupabaseClient } from "../lib/supabasePublic";
 
-export interface AuthUser {
-  id: string;
-  email: string | null;
-}
-
-export interface AuthRequest extends Request {
-  user?: AuthUser;
-}
-
 export async function authMiddleware(
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) {
@@ -21,7 +12,11 @@ export async function authMiddleware(
     return res.status(401).json({ error: "Token not provided" });
   }
 
-  const token = authHeader.split(" ")[1];
+  const [, token] = authHeader.split(" ");
+
+  if (!token) {
+    return res.status(401).json({ error: "Invalid token format" });
+  }
 
   const supabase = getSupabaseClient(token);
 
@@ -38,6 +33,8 @@ export async function authMiddleware(
     id: user.id,
     email: user.email ?? null,
   };
+
+  req.accessToken = token; // 👈 importante
 
   return next();
 }

@@ -1,14 +1,21 @@
-import { Response } from "express";
-import { AuthRequest } from "../middlewares/auth";
+import { Request, Response } from "express";
 import { getSupabaseClient } from "../lib/supabasePublic";
 
 /**
  * POST /softwares
  */
-export async function createSoftware(req: AuthRequest, res: Response) {
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+export async function createSoftware(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
   const { server_id, name, type, version, main_port } = req.body;
+
+  if (!server_id || !name) {
+    return res.status(400).json({ error: "server_id e name são obrigatórios" });
+  }
+
+  const supabase = getSupabaseClient(req.accessToken);
 
   const { data, error } = await supabase
     .from("softwares")
@@ -19,6 +26,7 @@ export async function createSoftware(req: AuthRequest, res: Response) {
         type,
         version,
         main_port,
+        user_id: req.user.id,
       },
     ])
     .select();
@@ -32,10 +40,14 @@ export async function createSoftware(req: AuthRequest, res: Response) {
 
 /**
  * GET /softwares
- * Lista Geral de Softwares
+ * Lista geral de softwares
  */
-export async function listSoftwares(req: AuthRequest, res: Response) {
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+export async function listSoftwares(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const supabase = getSupabaseClient(req.accessToken);
 
   const { data, error } = await supabase
     .from("softwares")
@@ -50,16 +62,20 @@ export async function listSoftwares(req: AuthRequest, res: Response) {
 
 /**
  * GET /softwares/:server_id
- * Lista de Softwares por servidor
+ * Lista de softwares por servidor
  */
-export async function listSoftwaresByServer(req: AuthRequest, res: Response) {
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+export async function listSoftwaresByServer(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
   const { server_id } = req.params;
 
   if (!server_id) {
     return res.status(400).json({ error: "server_id é obrigatório" });
   }
+
+  const supabase = getSupabaseClient(req.accessToken);
 
   const { data, error } = await supabase
     .from("softwares")
@@ -77,11 +93,15 @@ export async function listSoftwaresByServer(req: AuthRequest, res: Response) {
 /**
  * PUT /softwares/:id
  */
-export async function updateSoftware(req: AuthRequest, res: Response) {
+export async function updateSoftware(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { id } = req.params;
   const { server_id, name, type, version, main_port } = req.body;
 
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+  const supabase = getSupabaseClient(req.accessToken);
 
   const updateData: {
     server_id?: string;
@@ -117,16 +137,20 @@ export async function updateSoftware(req: AuthRequest, res: Response) {
 /**
  * DELETE /softwares/:id
  */
-export async function deleteSoftware(req: AuthRequest, res: Response) {
+export async function deleteSoftware(req: Request, res: Response) {
+  if (!req.user || !req.accessToken) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { id } = req.params;
 
-  const supabase = getSupabaseClient(req.headers.authorization!.split(" ")[1]);
+  const supabase = getSupabaseClient(req.accessToken);
 
   const { error } = await supabase
     .from("softwares")
     .delete()
     .eq("id", id)
-    .eq("user_id", req.user!.id); // só o dono apaga
+    .eq("user_id", req.user.id);
 
   if (error) {
     return res.status(400).json({ error: error.message });
