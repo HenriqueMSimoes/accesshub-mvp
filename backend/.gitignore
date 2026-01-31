@@ -46,3 +46,4 @@ node_modules
 *.sw?
 .utils
 return_token.json
+.env*.local
